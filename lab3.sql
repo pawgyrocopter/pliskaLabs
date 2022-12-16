@@ -66,86 +66,103 @@ create table if not exists "AspNetUserRoles"
 create index "IX_AspNetUserRoles_RoleId"
     on "AspNetUserRoles" ("RoleId");
 
-create table if not exists Orders
+create table if not exists "Orders"
 (
-    Id         serial
+    "Id"         serial
         constraint PK_Orders
             primary key ,
-    UserId     INTEGER           not null
+    "UserId"     INTEGER           not null
         constraint FK_Orders_AspNetUsers_UserId
-            references AspNetUsers
+            references "AspNetUsers"
             on delete cascade,
-    OrderState INTEGER default 0 not null
+    "OrderState" INTEGER default 0 not null
 );
 
-
-create table if not exists Photos
+create index "IX_Orders_UserId"
+    on "Orders" ("UserId");
+    
+create table if not exists "Photos"
 (
-    Id       serial
+    "Id"       serial
         constraint PK_Photos
             primary key ,
-    Url      TEXT    not null,
-    PublicId TEXT    not null
+    "Url"      TEXT    not null,
+    "PublicId" TEXT    not null
 );
 
-create table if not exists Topings
+create table if not exists "Topings"
 (
-    Id   serial
+    "Id"   serial
         constraint PK_Topings
             primary key,
-    Name TEXT    not null
+    "Name" TEXT    not null
 );
 
-
-create table if not exists Pizzas
+create table if not exists "Pizzas"
 (
-    Id          serial
+    "Id"          serial
         constraint PK_Pizzas
             primary key ,
-    Name        TEXT    not null,
-    Ingredients TEXT    not null,
-    Cost        INTEGER not null,
-    Weight      INTEGER not null,
-    PhotoId     INTEGER not null
+    "Name"        TEXT    not null,
+    "Ingredients" TEXT    not null,
+    "Cost"        INTEGER not null,
+    "Weight"      INTEGER not null,
+    "PhotoId"     INTEGER not null
         constraint FK_Pizzas_Photos_PhotoId
-            references Photos
+            references "Photos"
             on delete cascade,
-    State       INTEGER not null
+    "State"       INTEGER not null
 );
 
-create table if not exists PizzaOrders
+create index "IX_Pizzas_PhotoId"
+    on "Pizzas" ("PhotoId");
+
+
+create table if not exists "PizzaOrders"
 (
-    Id      serial
+    "Id"      serial
         constraint PK_PizzaOrders
             primary key ,
-    PizzaId INTEGER           not null
+    "PizzaId" INTEGER           not null
         constraint FK_PizzaOrders_Pizzas_PizzaId
-            references Pizzas
+            references "Pizzas"
             on delete cascade,
-    OrderId INTEGER           not null
+    "OrderId" INTEGER           not null
         constraint FK_PizzaOrders_Orders_OrderId
-            references Orders
+            references "Orders"
             on delete cascade,
-    State   INTEGER default 0 not null
+    "State"   INTEGER default 0 not null
 );
 
+create index "IX_PizzaOrders_OrderId"
+    on "PizzaOrders" ("OrderId");
 
+create index "IX_PizzaOrders_PizzaId"
+    on "PizzaOrders" ("PizzaId");
 
-create table if not exists TopingOrders
+create table if not exists "TopingOrders"
 (
-    Id          serial
+    "Id"          serial
         constraint PK_TopingOrders
             primary key ,
-    TopingId     INTEGER not null
+    "TopingId"     INTEGER not null
         constraint FK_TopingOrders_Topings_TopingId
-            references Topings
+            references "Topings"
             on delete cascade,
-    Counter      INTEGER not null,
-    PizzaOrderId INTEGER not null
+    "Counter"      INTEGER not null,
+    "PizzaOrderId" INTEGER not null
         constraint FK_TopingOrders_PizzaOrders_PizzaOrderId
-            references PizzaOrders
+            references "PizzaOrders"
             on delete cascade
 );
+
+create index "IX_TopingOrders_PizzaOrderId"
+    on "TopingOrders" ("PizzaOrderId");
+
+create index "IX_TopingOrders_TopingId"
+    on "TopingOrders" ("TopingId");
+
+
 
 
 
