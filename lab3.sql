@@ -49,19 +49,22 @@ create unique index "RoleNameIndex"
     
     
 
-create table if not exists AspNetUserRoles
+create table if not exists "AspNetUserRoles"
 (
-    UserId INTEGER not null
+    "UserId" INTEGER not null
         constraint FK_AspNetUserRoles_AspNetUsers_UserId
-            references AspNetUsers
+            references "AspNetUsers"
             on delete cascade,
-    RoleId INTEGER not null
+    "RoleId" INTEGER not null
         constraint FK_AspNetUserRoles_AspNetRoles_RoleId
-            references AspNetRoles
+            references "AspNetRoles"
             on delete cascade,
     constraint PK_AspNetUserRoles
-        primary key (UserId, RoleId)
+        primary key ("UserId", "RoleId")
 );
+
+create index "IX_AspNetUserRoles_RoleId"
+    on "AspNetUserRoles" ("RoleId");
 
 create table if not exists Orders
 (
