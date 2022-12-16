@@ -4,41 +4,50 @@
 
 
 
-create table if not exists AspNetUsers
+create table "AspNetUsers"
 (
-    Id                   serial
+     "Id"                   serial
         constraint PK_AspNetUsers
             primary key ,
-    Adress               TEXT    not null,
-    UserName             TEXT,
-    NormalizedUserName   TEXT,
-    Email                TEXT,
-    NormalizedEmail      TEXT,
-    EmailConfirmed       INTEGER not null,
-    PasswordHash         TEXT,
-    SecurityStamp        TEXT,
-    ConcurrencyStamp     TEXT,
-    PhoneNumber          TEXT,
-    PhoneNumberConfirmed INTEGER not null,
-    TwoFactorEnabled     INTEGER not null,
-    LockoutEnd           TEXT,
-    LockoutEnabled       INTEGER not null,
-    AccessFailedCount    INTEGER not null
+    "Adress"               TEXT    not null,
+    "UserName"             TEXT,
+    "NormalizedUserName"   TEXT,
+    "Email"                TEXT,
+    "NormalizedEmail"      TEXT,
+    "EmailConfirmed"       BOOL not null,
+    "PasswordHash"         TEXT,
+    "SecurityStamp"        TEXT,
+    "ConcurrencyStamp"     TEXT,
+    "PhoneNumber"          TEXT,
+    "PhoneNumberConfirmed" BOOL not null,
+    "TwoFactorEnabled"     BOOL not null,
+    "LockoutEnd"           TEXT,
+    "LockoutEnabled"       BOOL not null,
+    "AccessFailedCount"    INTEGER not null
 );
 
+create index "EmailIndex"
+    on "AspNetUsers" ("NormalizedEmail");
+
+create unique index "UserNameIndex"
+    on "AspNetUsers" ("NormalizedUserName");
 
 
 
 
-create table if not exists AspNetRoles
+create table if not exists "AspNetRoles"
 (
-    Id               serial
+    "Id"               serial
         constraint PK_AspNetRoles
             primary key ,
-    Name             TEXT,
-    NormalizedName   TEXT,
-    ConcurrencyStamp TEXT
+    "Name"             TEXT,
+    "NormalizedName"   TEXT,
+    "ConcurrencyStamp" TEXT
 );
+create unique index "RoleNameIndex"
+    on "AspNetRoles" ("NormalizedName");
+    
+    
 
 create table if not exists AspNetUserRoles
 (
