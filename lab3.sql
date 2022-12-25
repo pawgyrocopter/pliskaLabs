@@ -165,7 +165,16 @@ create index "IX_TopingOrders_TopingId"
 
 
 
+create table if not exists "LogsTypes"(
+   "Id" serial constraint PK_LogsTypes primary key,
+    "Name" TEXT
+);
 
+create table if not exists "Logs"(
+	"Id" serial primary key,
+	"LogTypeId" integer REFERENCES "LogsTypes",
+	"Message" TEXT
+);
 
 
 
