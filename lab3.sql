@@ -210,7 +210,8 @@ execute function insertInfoLog(' toping was created succesfully');
 
 
 
-
+alter table "PizzaOrders"
+add "Cost" integer
 
 
 
