@@ -176,6 +176,38 @@ create table if not exists "Logs"(
 	"Message" TEXT
 );
 
+create or replace function insertInfoLog()
+    returns trigger
+    language plpgsql
+    as
+   $$
+   begin
+        insert into "Logs"
+        values (DEFAULT, (select logs."Id" from "LogsTypes" as logs where logs."Name" = 'INFO'),new."Id" || TG_ARGV[0] );
+    return new;
+   end;
+   $$
+   ;
+create or replace trigger userCreated
+after insert on "AspNetUsers"
+for each row
+execute function insertInfoLog(' user was created succesfully');
+
+create or replace trigger orderCreated
+after insert on "Orders"
+for each row
+execute function insertInfoLog(' order was created succesfully');
+
+create or replace trigger pizzaAdded
+after insert on "Pizzas"
+for each row
+execute function insertInfoLog(' pizza was added succesfully');
+
+create or replace trigger topingAdded
+after insert on "Topings"
+for each row
+execute function insertInfoLog(' toping was created succesfully');
+
 
 
 
